@@ -1,8 +1,9 @@
 # Build stage
-FROM golang:1.22-rc-alpine AS builder
+FROM golang:1.21-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN go mod download
+ENV GOTOOLCHAIN=local
+ENV GOFLAGS="-mod=mod"
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o shiori
 
 # Final stage
