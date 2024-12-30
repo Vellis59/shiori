@@ -2,9 +2,8 @@
 FROM golang:1.21-alpine AS builder
 WORKDIR /app
 COPY . .
-ENV GOTOOLCHAIN=local
-ENV GOFLAGS="-mod=mod"
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o shiori
+RUN sed -i 's/go 1.22.3/go 1.21/' go.mod && \
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o shiori
 
 # Final stage
 FROM alpine:3.19
